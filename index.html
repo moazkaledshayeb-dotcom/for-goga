@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>معاذ شعيب ❤️ جنى</title>
+  
+  <!-- الخطوط العريضة والأنيقة -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Reem+Kufi:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    :root {
+      --bg-dark: #05020a;
+      --card-bg: rgba(22, 10, 35, 0.75);
+      --card-border: rgba(255, 41, 116, 0.3);
+      --pink-neon: #ff2975;
+      --purple-neon: #8c1bab;
+      --cyan-neon: #00f0ff;
+      --text-main: #ffffff;
+      --text-sub: #e0d0f0;
+      --gold: #ffd700;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Cairo', sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* خلفية الصور الرومانسية الحقيقية والمضيئة */
+    .bg-slideshow {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+      background-size: cover;
+      background-position: center;
+      transition: background-image 2s ease-in-out;
+      filter: brightness(0.35) contrast(1.1);
+    }
+
+    /* تأثير تدرج نيون خفيف فوق الخلفية */
+    .bg-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background: radial-gradient(circle at 50% 30%, rgba(140, 27, 171, 0.25), transparent 70%),
+                  radial-gradient(circle at 80% 80%, rgba(255, 41, 116, 0.2), transparent 60%),
+                  linear-gradient(to bottom, rgba(5,2,10,0.6), rgba(5,2,10,0.9));
+      pointer-events: none;
+    }
+
+    /* قلوب تتساقط في الخلفية */
+    #hearts-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* === شاشة القفل والأنيميشن === */
+    #lock-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #030108;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      text-align: center;
+      transition: opacity 0.8s ease, visibility 0.8s ease;
+    }
+
+    .lock-box {
+      background: rgba(18, 7, 30, 0.85);
+      border: 2px solid var(--pink-neon);
+      border-radius: 24px;
+      padding: 35px 25px;
+      width: 100%;
+      max-width: 380px;
+      box-shadow: 0 0 35px rgba(255, 41, 116, 0.4), inset 0 0 15px rgba(255, 41, 116, 0.2);
+      backdrop-filter: blur(15px);
+      z-index: 2;
+    }
+
+    .lock-title {
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: #fff;
+      text-shadow: 0 0 12px var(--pink-neon);
+      margin-bottom: 8px;
+    }
+
+    .lock-sub {
+      color: var(--text-sub);
+      font-size: 0.95rem;
+      margin-bottom: 25px;
+    }
+
+    .pass-input {
+      width: 100%;
+      padding: 14px;
+      border-radius: 12px;
+      border: 1px solid var(--purple-neon);
+      background: rgba(0,0,0,0.6);
+      color: #fff;
+      font-size: 1.2rem;
+      text-align: center;
+      letter-spacing: 3px;
+      outline: none;
+      margin-bottom: 18px;
+      box-shadow: inset 0 0 8px rgba(0,0,0,0.8);
+      transition: border 0.3s;
+    }
+
+    .pass-input:focus {
+      border-color: var(--pink-neon);
+      box-shadow: 0 0 12px var(--pink-neon);
+    }
+
+    .lock-btn {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(45deg, var(--pink-neon), var(--purple-neon));
+      color: #fff;
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 0 20px rgba(255, 41, 116, 0.5);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .lock-btn:active {
+      transform: scale(0.97);
+    }
+
+    .error-msg {
+      color: #ff4d4d;
+      font-size: 0.85rem;
+      margin-top: 12px;
+      display: none;
+    }
+
+    /* الكانفاس الخاص بتجمع القلوب عند فتح الباسورد */
+    #heart-formation-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 10000;
+      pointer-events: none;
+      display: none;
+    }
+
+    /* === المحتوى الرئيسي === */
+    #main-content {
+      opacity: 0;
+      transition: opacity 1.5s ease;
+      position: relative;
+      z-index: 1;
+      padding-bottom: 90px;
+    }
+
+    header {
+      padding: 35px 20px 20px;
+      text-align: center;
+    }
+
+    .site-title {
+      font-family: 'Reem Kufi', sans-serif;
+      font-size: 2.6rem;
+      background: linear-gradient(45deg, #fff, var(--pink-neon), var(--cyan-neon));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 30px rgba(255, 41, 116, 0.6);
+      margin-bottom: 5px;
+    }
+
+    .site-sub {
+      font-size: 1.1rem;
+      color: var(--text-sub);
+    }
+
+    /* === العداد الثابت الكبير === */
+    .big-counter-card {
+      background: rgba(20, 8, 32, 0.85);
+      border: 2px solid var(--pink-neon);
+      border-radius: 20px;
+      margin: 20px auto;
+      padding: 22px 15px;
+      max-width: 500px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 0 30px rgba(255, 41, 116, 0.35);
+      backdrop-filter: blur(10px);
+    }
+
+    .big-counter-header {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--gold);
+      margin-bottom: 15px;
+      line-height: 1.6;
+      text-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
+    }
+
+    .counter-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    .time-box {
+      background: rgba(0, 0, 0, 0.6);
+      border: 1px solid var(--purple-neon);
+      border-radius: 12px;
+      padding: 10px 5px;
+    }
+
+    .time-num {
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: var(--cyan-neon);
+      text-shadow: 0 0 10px var(--cyan-neon);
+    }
+
+    .time-label {
+      font-size: 0.75rem;
+      color: var(--text-sub);
+      margin-top: 3px;
+    }
+
+    /* === العداد العائم السفي === */
+    .floating-counter {
+      position: fixed;
+      bottom: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(10, 3, 18, 0.92);
+      border: 1px solid var(--pink-neon);
+      border-radius: 30px;
+      padding: 8px 18px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      box-shadow: 0 0 20px rgba(255, 41, 116, 0.6);
+      z-index: 99;
+      backdrop-filter: blur(8px);
+      white-space: nowrap;
+    }
+
+    .float-item {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .float-item span {
+      color: var(--pink-neon);
+      font-weight: 900;
+    }
+
+    /* === مشغل الموسيقى === */
+    .music-player-card {
+      background: rgba(15, 5, 25, 0.85);
+      border: 1px solid var(--purple-neon);
+      border-radius: 20px;
+      margin: 25px auto;
+      padding: 18px;
+      max-width: 500px;
+      width: 90%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 0 25px rgba(140, 27, 171, 0.3);
+      backdrop-filter: blur(10px);
+    }
+
+    .song-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--pink-neon);
+      text-align: center;
+    }
+
+    .player-controls {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .play-btn {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      border: none;
+      background: linear-gradient(45deg, var(--pink-neon), var(--purple-neon));
+      color: #fff;
+      font-size: 1.3rem;
+      cursor: pointer;
+      box-shadow: 0 0 15px var(--pink-neon);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* === الأقسام والبطاقات === */
+    .section-container {
+      max-width: 600px;
+      margin: 0 auto 35px;
+      width: 90%;
+    }
+
+    .section-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 2px solid var(--pink-neon);
+      padding-bottom: 8px;
+      width: fit-content;
+    }
+
+    .section-title i {
+      color: var(--pink-neon);
+    }
+
+    /* الذكريات Timeline */
+    .timeline {
+      position: relative;
+      padding-right: 20px;
+      border-right: 2px dashed var(--purple-neon);
+    }
+
+    .memory-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 20px;
+      position: relative;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
+
+    .memory-card::before {
+      content: '❤️';
+      position: absolute;
+      right: -31px;
+      top: 15px;
+      font-size: 0.9rem;
+    }
+
+    .memory-title {
+      font-size: 1.1rem;
+      color: var(--pink-neon);
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .memory-time {
+      font-size: 0.8rem;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+
+    .memory-desc {
+      font-size: 0.95rem;
+      color: var(--text-sub);
+      line-height: 1.6;
+    }
+
+    /* الرسائل */
+    .messages-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 15px;
+    }
+
+    .msg-card {
+      background: var(--card-bg);
+      border: 1px solid rgba(0, 240, 255, 0.3);
+      border-radius: 16px;
+      padding: 16px;
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(8px);
+    }
+
+    .msg-card::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: var(--cyan-neon);
+    }
+
+    .msg-text {
+      font-size: 0.95rem;
+      color: #fff;
+      line-height: 1.6;
+    }
+
+    /* الاختبار التفاعلي */
+    .quiz-card {
+      background: var(--card-bg);
+      border: 1px solid var(--pink-neon);
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 0 20px rgba(255, 41, 116, 0.2);
+    }
+
+    .quiz-q {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+      color: #fff;
+    }
+
+    .quiz-options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .quiz-opt-btn {
+      background: rgba(0,0,0,0.5);
+      border: 1px solid var(--purple-neon);
+      color: #fff;
+      padding: 12px;
+      border-radius: 12px;
+      text-align: right;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+
+    .quiz-opt-btn:active {
+      background: var(--purple-neon);
+    }
+
+    .quiz-result {
+      text-align: center;
+      padding: 15px;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--gold);
+      display: none;
+    }
+
+    /* فيديو TikTok */
+    .video-card {
+      background: var(--card-bg);
+      border: 1px solid var(--purple-neon);
+      border-radius: 20px;
+      padding: 15px;
+      text-align: center;
+    }
+
+    .video-container {
+      width: 100%;
+      max-width: 320px;
+      height: 480px;
+      margin: 0 auto;
+      border-radius: 15px;
+      overflow: hidden;
+      background: #000;
+    }
+
+    .video-container iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    /* زر الواتساب */
+    .whatsapp-btn {
+      position: fixed;
+      bottom: 70px;
+      left: 20px;
+      background: #25d366;
+      color: #fff;
+      width: 55px;
+      height: 55px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.8rem;
+      box-shadow: 0 0 20px rgba(37, 211, 102, 0.6);
+      z-index: 98;
+      text-decoration: none;
+      transition: transform 0.2s;
+    }
+
+    .whatsapp-btn:active {
+      transform: scale(0.9);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-slideshow" id="bgSlide"></div>
+  <div class="bg-overlay"></div>
+  <canvas id="hearts-canvas"></canvas>
+
+  <!-- شاشة الدخول -->
+  <div id="lock-screen">
+    <div class="lock-box">
+      <div class="lock-title">معاذ شعيب ❤️ جنى</div>
+      <div class="lock-sub">أهلاً بكِ يا أميرتي.. أداخلي كلمة السر لرؤية عالمنا</div>
+      <input type="password" id="passInput" class="pass-input" placeholder="كلمة السر">
+      <button class="lock-btn" onclick="checkPassword()">دخول الصفحة ❤️</button>
+      <div class="error-msg" id="errorMsg">كلمة السر غير صحيحة، حاولي مرة أخرى!</div>
+    </div>
+  </div>
+
+  <!-- كانفاس تجمع القلوب -->
+  <canvas id="heart-formation-canvas"></canvas>
+
+  <!-- الصوتيات -->
+  <audio id="bgAudio" loop preload="auto">
+    <source src="https://drive.google.com/uc?export=download&id=1VwvBlzXb-7RG2jS2UQIYOSZK-pDQg0Nu" type="audio/mpeg">
+  </audio>
+
+  <!-- المحتوى الرئيسي -->
+  <div id="main-content">
+    <header>
+      <h1 class="site-title">معاذ شعيب ❤️ جنى</h1>
+      <p class="site-sub">قصة حب أبدية كُتبت بالصدفة واستمرت للأبد</p>
+    </header>
+
+    <!-- العداد الثابت الكبير -->
+    <div class="big-counter-card">
+      <div class="big-counter-header">
+        أعلم أنني أعرفها منذ 13/8/2026 صباحاً الساعة 12:04 بالظبط ❤️
+      </div>
+      <div class="counter-grid">
+        <div class="time-box">
+          <div class="time-num" id="big-days">0</div>
+          <div class="time-label">يوم</div>
+        </div>
+        <div class="time-box">
+          <div class="time-num" id="big-hours">0</div>
+          <div class="time-label">ساعة</div>
+        </div>
+        <div class="time-box">
+          <div class="time-num" id="big-minutes">0</div>
+          <div class="time-label">دقيقة</div>
+        </div>
+        <div class="time-box">
+          <div class="time-num" id="big-seconds">0</div>
+          <div class="time-label">ثانية</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- مشغل الموسيقى -->
+    <div class="music-player-card">
+      <div class="song-title"><i class="fas fa-music"></i> أغنيتنا الخاصة ❤️</div>
+      <div class="player-controls">
+        <button class="play-btn" id="playBtn" onclick="togglePlay()"><i class="fas fa-pause"></i></button>
+      </div>
+    </div>
+
+    <!-- الذكريات -->
+    <div class="section-container">
+      <div class="section-title"><i class="fas fa-star"></i> حكايتنا وذكرياتنا</div>
+      <div class="timeline">
+        <div class="memory-card">
+          <div class="memory-title">الذكرى الأولى: بداية الحكاية</div>
+          <div class="memory-desc">عرفنا بعض من جروب صدفة وكانت أجمل صدفة في حياتي كلها ❤️</div>
+        </div>
+
+        <div class="memory-card">
+          <div class="memory-title">الذكرى الثانية: أول شات بيننا</div>
+          <div class="memory-time">التاريخ: 13/8 - الساعة: 12:04 صباحاً بالضبط</div>
+          <div class="memory-desc">اللحظة اللي بدأت فيها سطور أجمل رواية في عمري كله.</div>
+        </div>
+
+        <div class="memory-card">
+          <div class="memory-title">الذكرى الثالثة: أول ليلة سهر مع بعض</div>
+          <div class="memory-desc">أول مرة نسهر مع بعض جوه الجروب وبدأنا نتعرف ونقرب من بعض أكتر وأكتر.</div>
+        </div>
+
+        <div class="memory-card">
+          <div class="memory-title">الذكرى الرابعة: ضحكة مش بتتنسي</div>
+          <div class="memory-desc">ضحكنا وهزارنا مع بعض لما كنا بنهزر ونضحك على أي حد بصفة عامة، لحظات محفورة في قلبي.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- الرسائل -->
+    <div class="section-container">
+      <div class="section-title"><i class="fas fa-envelope-open-text"></i> رسائل من قلبي لقلبك</div>
+      <div class="messages-grid">
+        <div class="msg-card"><div class="msg-text">وجودك في حياتي بيخلي كل حاجة ألمسها تبدو أجمل وألطف ❤️</div></div>
+        <div class="msg-card"><div class="msg-text">أنتِ مش بس حبيببتي، أنتِ الصدفة اللي غيرت مجرى حياتي بالكامل.</div></div>
+        <div class="msg-card"><div class="msg-text">ضحكتك هي الموسيقى المفضلة بالنسبة لي في العالم دا كله.</div></div>
+        <div class="msg-card"><div class="msg-text">كل دقيقة بتعدي وأنتِ معايا بتحسب بعمر جديد تماماً.</div></div>
+        <div class="msg-card"><div class="msg-text">13/8 الساعة 12:04 كانت اللحظة اللي قلبي بدأ ينبض فيها بجد.</div></div>
+        <div class="msg-card"><div class="msg-text">بحب كل تفصيلة فيكي، بحب طريقة كلامك، هدوءك، وضحكتك العفوية.</div></div>
+        <div class="msg-card"><div class="msg-text">أنتِ النعمة اللي بدعي ربنا كل يوم إنها تفضل جني وعمري كله.</div></div>
+        <div class="msg-card"><div class="msg-text">مهما مرت الأيام، هفضل أشوفك بنفس الانبهار اللي شفتك بيه أول مرة.</div></div>
+        <div class="msg-card"><div class="msg-text">أعدك أن أكون لكِ السند والظهر والأمان طوال العمر.</div></div>
+        <div class="msg-card"><div class="msg-text">معاذ بحبك يا جنى لأخر العمر ❤️</div></div>
+      </div>
+    </div>
+
+    <!-- الاختبار التفاعلي -->
+    <div class="section-container">
+      <div class="section-title"><i class="fas fa-heart-pulse"></i> اختبار ذكرياتنا</div>
+      <div class="quiz-card">
+        <div id="quiz-box">
+          <div class="quiz-q" id="quizQuestion">سؤال الاختبار سيظهر هنا</div>
+          <div class="quiz-options" id="quizOptions"></div>
+        </div>
+        <div class="quiz-result" id="quizResult"></div>
+      </div>
+    </div>
+
+    <!-- فيديو TikTok الخاص -->
+    <div class="section-container">
+      <div class="section-title"><i class="fab fa-tiktok"></i> فيديو ذكرياتنا</div>
+      <div class="video-card">
+        <div class="video-container">
+          <iframe id="videoIframe" src="https://drive.google.com/file/d/1vJwKUBTklFIu41HfBLYycc0w6I89ROwE/preview" allow="autoplay"></iframe>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- العداد العائم -->
+  <div class="floating-counter">
+    <div class="float-item"><span id="fl-days">0</span> يوم</div>
+    <div class="float-item"><span id="fl-hours">0</span> س</div>
+    <div class="float-item"><span id="fl-mins">0</span> د</div>
+    <div class="float-item"><span id="fl-secs">0</span> ث</div>
+  </div>
+
+  <!-- زر الواتساب -->
+  <a href="https://wa.me/201550660352" target="_blank" class="whatsapp-btn">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+
+  <script>
+    // === صور الخلفيات الرومانسية الحقيقية ===
+    const bgImages = [
+      'https://images.unsplash.com/photo-1518199266791-5375a83190b7?q=80&w=1200&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?q=80&w=1200&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?q=80&w=1200&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1494774157365-9e04c6720e47?q=80&w=1200&auto=format&fit=crop'
+    ];
+    let currentBgIdx = 0;
+    const bgSlide = document.getElementById('bgSlide');
+
+    function changeBg() {
+      bgSlide.style.backgroundImage = `url('${bgImages[currentBgIdx]}')`;
+      currentBgIdx = (currentBgIdx + 1) % bgImages.length;
+    }
+    changeBg();
+    setInterval(changeBg, 5000);
+
+    // === تساقط القلوب في الخلفية ===
+    const canvas = document.getElementById('hearts-canvas');
+    const ctx = canvas.getContext('2d');
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
+
+    window.addEventListener('resize', () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    });
+
+    class Heart {
+      constructor() {
+        this.reset();
+      }
+      reset() {
+        this.x = Math.random() * width;
+        this.y = height + 20;
+        this.size = Math.random() * 15 + 8;
+        this.speedY = Math.random() * 1.5 + 0.8;
+        this.speedX = Math.sin(Math.random() * Math.PI) * 1;
+        this.opacity = Math.random() * 0.7 + 0.3;
+      }
+      update() {
+        this.y -= this.speedY;
+        this.x += this.speedX;
+        if (this.y < -20) this.reset();
+      }
+      draw() {
+        ctx.save();
+        ctx.globalAlpha = this.opacity;
+        ctx.fillStyle = '#ff2975';
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size / 2, Math.PI, 0, false);
+        ctx.arc(this.x + this.size / 2, this.y, this.size / 2, Math.PI, 0, false);
+        ctx.lineTo(this.x + this.size / 4, this.y + this.size);
+        ctx.closePath();
+        ctx.fill();
+        ctx.restore();
+      }
+    }
+
+    const hearts = Array.from({ length: 30 }, () => new Heart());
+    function animateHearts() {
+      ctx.clearRect(0, 0, width, height);
+      hearts.forEach(h => { h.update(); h.draw(); });
+      requestAnimationFrame(animateHearts);
+    }
+    animateHearts();
+
+    // === التحقق من كلمة السر والأنيميشن ===
+    const CORRECT_PASS = "28/1/2012";
+
+    function checkPassword() {
+      const input = document.getElementById('passInput').value.trim();
+      const errorMsg = document.getElementById('errorMsg');
+      if (input === CORRECT_PASS) {
+        errorMsg.style.display = 'none';
+        startHeartFormationAnimation();
+      } else {
+        errorMsg.style.display = 'block';
+      }
+    }
+
+    function startHeartFormationAnimation() {
+      document.getElementById('lock-screen').style.opacity = '0';
+      setTimeout(() => { document.getElementById('lock-screen').style.display = 'none'; }, 800);
+
+      const fCanvas = document.getElementById('heart-formation-canvas');
+      const fCtx = fCanvas.getContext('2d');
+      fCanvas.style.display = 'block';
+      fCanvas.width = window.innerWidth;
+      fCanvas.height = window.innerHeight;
+
+      let particles = [];
+      const numParticles = 180;
+      const centerX = fCanvas.width / 2;
+      const centerY = fCanvas.height / 2;
+
+      for (let i = 0; i < numParticles; i++) {
+        let t = Math.PI * 2 * (i / numParticles);
+        let heartX = 16 * Math.pow(Math.sin(t), 3);
+        let heartY = -(13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t));
+
+        let targetX = centerX + heartX * (Math.min(fCanvas.width, fCanvas.height) / 35);
+        let targetY = centerY + heartY * (Math.min(fCanvas.width, fCanvas.height) / 35);
+
+        particles.push({
+          x: Math.random() * fCanvas.width,
+          y: Math.random() * fCanvas.height,
+          targetX: targetX,
+          targetY: targetY,
+          size: Math.random() * 6 + 4,
+          speed: 0.04
+        });
+      }
+
+      let progress = 0;
+      function animateFormation() {
+        fCtx.clearRect(0, 0, fCanvas.width, fCanvas.height);
+        progress += 0.015;
+
+        particles.forEach(p => {
+          p.x += (p.targetX - p.x) * p.speed;
+          p.y += (p.targetY - p.y) * p.speed;
+
+          fCtx.fillStyle = '#ff2975';
+          fCtx.beginPath();
+          fCtx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+          fCtx.fill();
+        });
+
+        if (progress < 1.8) {
+          requestAnimationFrame(animateFormation);
+        } else {
+          fCanvas.style.transition = 'opacity 1s ease';
+          fCanvas.style.opacity = '0';
+          setTimeout(() => {
+            fCanvas.style.display = 'none';
+            showMainContent();
+          }, 1000);
+        }
+      }
+      animateFormation();
+    }
+
+    function showMainContent() {
+      const main = document.getElementById('main-content');
+      main.style.opacity = '1';
+      
+      // تشغيل الموسيقى تلقائياً فور الدخول
+      const audio = document.getElementById('bgAudio');
+      audio.play().then(() => {
+        isPlaying = true;
+        updatePlayBtn();
+      }).catch(e => console.log('Autoplay prevented:', e));
+    }
+
+    // === تشغيل الموسيقى ===
+    let isPlaying = false;
+    const audio = document.getElementById('bgAudio');
+    const playBtn = document.getElementById('playBtn');
+
+    function togglePlay() {
+      if (isPlaying) {
+        audio.pause();
+        isPlaying = false;
+      } else {
+        audio.play();
+        isPlaying = true;
+      }
+      updatePlayBtn();
+    }
+
+    function updatePlayBtn() {
+      playBtn.innerHTML = isPlaying ? '<i class="fas fa-pause"></i>' : '<i class="fas fa-play"></i>';
+    }
+
+    // === إدارة الصوت تلقائياً عند التمرير إلى فيديو TikTok ===
+    window.addEventListener('scroll', () => {
+      const videoSec = document.querySelector('.video-card');
+      if (videoSec) {
+        const rect = videoSec.getBoundingClientRect();
+        const isVisible = rect.top >= 0 && rect.bottom <= window.innerHeight;
+        if (isVisible && isPlaying) {
+          audio.pause();
+          isPlaying = false;
+          updatePlayBtn();
+        }
+      }
+    });
+
+    // === العداد الزمني (13/8/2026 الساعة 12:04 AM) ===
+    const startDate = new Date(2026, 7, 13, 0, 4, 0); // Month 7 is August
+
+    function updateCounter() {
+      const now = new Date();
+      const diff = Math.abs(now - startDate);
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((diff / 1000 / 60) % 60);
+      const seconds = Math.floor((diff / 1000) % 60);
+
+      document.getElementById('big-days').innerText = days;
+      document.getElementById('big-hours').innerText = hours;
+      document.getElementById('big-minutes').innerText = minutes;
+      document.getElementById('big-seconds').innerText = seconds;
+
+      document.getElementById('fl-days').innerText = days;
+      document.getElementById('fl-hours').innerText = hours;
+      document.getElementById('fl-mins').innerText = minutes;
+      document.getElementById('fl-secs').innerText = seconds;
+    }
+    setInterval(updateCounter, 1000);
+    updateCounter();
+
+    // === الاختبار التفاعلي ===
+    const quizData = [
+      {
+        q: "ما هو تاريخ أول شات جمعنا مع بعض بوابتنا للحكاية؟",
+        options: ["13/8 الساعة 12:04 صباحاً", "15/8 الساعة 1:00 مساءً", "1/8 الساعة 10:00 مساءً"],
+        correct: 0
+      },
+      {
+        q: "عرفنا بعض لأول مرة إزاي؟",
+        options: ["في المدرسة", "عن طريق صدفة في جروب", "في الكافيه"],
+        correct: 1
+      }
+    ];
+
+    let currentQ = 0;
+    let score = 0;
+
+    function loadQuiz() {
+      if (currentQ < quizData.length) {
+        const q = quizData[currentQ];
+        document.getElementById('quizQuestion').innerText = q.q;
+        const optsContainer = document.getElementById('quizOptions');
+        optsContainer.innerHTML = '';
+
+        q.options.forEach((opt, idx) => {
+          const btn = document.createElement('button');
+          btn.className = 'quiz-opt-btn';
+          btn.innerText = opt;
+          btn.onclick = () => selectOption(idx);
+          optsContainer.appendChild(btn);
+        });
+      } else {
+        document.getElementById('quiz-box').style.display = 'none';
+        const res = document.getElementById('quizResult');
+        res.style.display = 'block';
+        res.innerHTML = `نتيجة الاختبار: ${score} من ${quizData.length} ❤️<br>أنتِ دائماً وأبداً ملكة قلبي يا جنى!`;
+      }
+    }
+
+    function selectOption(idx) {
+      if (idx === quizData[currentQ].correct) {
+        score++;
+      }
+      currentQ++;
+      loadQuiz();
+    }
+
+    loadQuiz();
+  </script>
+</body>
+  </html>
