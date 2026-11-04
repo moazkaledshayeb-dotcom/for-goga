@@ -14,7 +14,7 @@
   <style>
     :root {
       --bg-dark: #05020a;
-      --card-bg: rgba(22, 10, 35, 0.75);
+      --card-bg: rgba(22, 10, 35, 0.85);
       --card-border: rgba(255, 41, 116, 0.3);
       --pink-neon: #ff2975;
       --purple-neon: #8c1bab;
@@ -169,7 +169,6 @@
       display: none;
     }
 
-    /* الكانفاس الخاص بتجمع القلوب عند فتح الباسورد */
     #heart-formation-canvas {
       position: fixed;
       top: 0;
@@ -403,37 +402,63 @@
       line-height: 1.6;
     }
 
-    /* الرسائل */
+    /* === الرسائل المغلقة (الأظرف التفاعلية) === */
     .messages-grid {
       display: grid;
       grid-template-columns: 1fr;
       gap: 15px;
     }
 
-    .msg-card {
+    .envelope-card {
       background: var(--card-bg);
-      border: 1px solid rgba(0, 240, 255, 0.3);
+      border: 1px solid rgba(0, 240, 255, 0.4);
       border-radius: 16px;
-      padding: 16px;
+      padding: 18px;
+      cursor: pointer;
+      transition: all 0.3s ease;
       position: relative;
-      overflow: hidden;
       backdrop-filter: blur(8px);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
     }
 
-    .msg-card::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 4px;
-      height: 100%;
-      background: var(--cyan-neon);
+    .envelope-card:hover {
+      border-color: var(--cyan-neon);
+      box-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
+      transform: translateY(-2px);
     }
 
-    .msg-text {
-      font-size: 0.95rem;
+    .envelope-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 700;
+      color: var(--cyan-neon);
+      font-size: 1.05rem;
+    }
+
+    .envelope-header i {
+      transition: transform 0.4s ease;
+    }
+
+    .envelope-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s ease, margin-top 0.3s ease;
       color: #fff;
+      font-size: 0.95rem;
       line-height: 1.6;
+      border-top: 1px dashed transparent;
+    }
+
+    .envelope-card.open .envelope-body {
+      max-height: 150px;
+      margin-top: 12px;
+      border-top-color: rgba(255,255,255,0.15);
+      padding-top: 10px;
+    }
+
+    .envelope-card.open .envelope-header i {
+      transform: rotate(180deg);
     }
 
     /* الاختبار التفاعلي */
@@ -450,6 +475,7 @@
       font-weight: 700;
       margin-bottom: 15px;
       color: #fff;
+      line-height: 1.5;
     }
 
     .quiz-options {
@@ -470,8 +496,10 @@
       transition: all 0.3s;
     }
 
-    .quiz-opt-btn:active {
+    .quiz-opt-btn:active, .quiz-opt-btn:hover {
       background: var(--purple-neon);
+      border-color: var(--pink-neon);
+      box-shadow: 0 0 10px rgba(255, 41, 116, 0.4);
     }
 
     .quiz-result {
@@ -481,6 +509,7 @@
       font-weight: 700;
       color: var(--gold);
       display: none;
+      line-height: 1.8;
     }
 
     /* فيديو TikTok */
@@ -550,10 +579,8 @@
     </div>
   </div>
 
-  <!-- كانفاس تجمع القلوب -->
   <canvas id="heart-formation-canvas"></canvas>
 
-  <!-- الصوتيات -->
   <audio id="bgAudio" loop preload="auto">
     <source src="https://drive.google.com/uc?export=download&id=1VwvBlzXb-7RG2jS2UQIYOSZK-pDQg0Nu" type="audio/mpeg">
   </audio>
@@ -625,26 +652,73 @@
       </div>
     </div>
 
-    <!-- الرسائل -->
+    <!-- الرسائل المغلقة (الأظرف التفاعلية) -->
     <div class="section-container">
-      <div class="section-title"><i class="fas fa-envelope-open-text"></i> رسائل من قلبي لقلبك</div>
+      <div class="section-title"><i class="fas fa-envelope-open-text"></i> رسائل مغلقة من قلبي لقلبك</div>
+      <p style="color: var(--text-sub); font-size: 0.9rem; margin-bottom: 15px;">اضغطي على أي ظرف لفتحه وقراءة ما يحمله قلبي لكِ ❤️</p>
+      
       <div class="messages-grid">
-        <div class="msg-card"><div class="msg-text">وجودك في حياتي بيخلي كل حاجة ألمسها تبدو أجمل وألطف ❤️</div></div>
-        <div class="msg-card"><div class="msg-text">أنتِ مش بس حبيبتي، أنتِ الصدفة اللي غيرت مجرى حياتي بالكامل.</div></div>
-        <div class="msg-card"><div class="msg-text">ضحكتك هي الموسيقى المفضلة بالنسبة لي في العالم دا كله.</div></div>
-        <div class="msg-card"><div class="msg-text">كل دقيقة بتعدي وأنتِ معايا بتحسب بعمر جديد تماماً.</div></div>
-        <div class="msg-card"><div class="msg-text">13/8 الساعة 12:04 كانت اللحظة اللي قلبي بدأ ينبض فيها بجد.</div></div>
-        <div class="msg-card"><div class="msg-text">بحب كل تفصيلة فيكي، بحب طريقة كلامك، هدوءك، وضحكتك العفوية.</div></div>
-        <div class="msg-card"><div class="msg-text">أنتِ النعمة اللي بدعي ربنا كل يوم إنها تفضل جنبي وعمري كله.</div></div>
-        <div class="msg-card"><div class="msg-text">مهما مرت الأيام، هفضل أشوفك بنفس الانبهار اللي شفتك بيه أول مرة.</div></div>
-        <div class="msg-card"><div class="msg-text">أعدك أن أكون لكِ السند والظهر والأمان طوال العمر.</div></div>
-        <div class="msg-card"><div class="msg-text">معاذ بحبك يا جنى لأخر العمر ❤️</div></div>
+        <div class="envelope-card" onclick="toggleEnvelope(this)">
+          <div class="envelope-header">
+            <span><i class="fas fa-envelope"></i> رسالة رقم (1): السحر الحلال</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="envelope-body">وجودك في حياتي بيخلي كل حاجة ألمسها تبدو أجمل وألطف، وكأنك النور الذي أضاء عتمة أيامي ❤️</div>
+        </div>
+
+        <div class="envelope-card" onclick="toggleEnvelope(this)">
+          <div class="envelope-header">
+            <span><i class="fas fa-envelope"></i> رسالة رقم (2): الصدفة الجميلة</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="envelope-body">أنتِ مش بس حبيبتي، أنتِ الصدفة العظيمة التي غيرت مجرى حياتي بالكامل وجعلت للأيام طعم آخر.</div>
+        </div>
+
+        <div class="envelope-card" onclick="toggleEnvelope(this)">
+          <div class="envelope-header">
+            <span><i class="fas fa-envelope"></i> رسالة رقم (3): الموسيقى المفضلة</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="envelope-body">ضحكتك هي الموسيقى المفضلة بالنسبة لي في العالم دا كله، بها تكتمل فرحتي وبه تشفى كل جروحي.</div>
+        </div>
+
+        <div class="envelope-card" onclick="toggleEnvelope(this)">
+          <div class="envelope-header">
+            <span><i class="fas fa-envelope"></i> رسالة رقم (4): دقات القلب</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="envelope-body">13/8 الساعة 12:04 كانت اللحظة الحقيقية التي بدأ قلبي ينبض فيها بجد ويشعر بمعنى الحياة.</div>
+        </div>
+
+        <div class="envelope-card" onclick="toggleEnvelope(this)">
+          <div class="envelope-header">
+            <span><i class="fas fa-envelope"></i> رسالة رقم (5): تفاصيلك</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="envelope-body">بحب كل تفصيلة فيكي، بحب طريقة كلامك، هدوءك، وضحكتك العفوية التي تسرقني من كل العالم.</div>
+        </div>
+
+        <div class="envelope-card" onclick="toggleEnvelope(this)">
+          <div class="envelope-header">
+            <span><i class="fas fa-envelope"></i> رسالة رقم (6): الوعد الأبدي</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="envelope-body">أعدك أن أكون لكِ السند والظهر والأمان طوال العمر، وأن تظل سعادتك هي غايتي الأولى والأبدية.</div>
+        </div>
+
+        <div class="envelope-card" onclick="toggleEnvelope(this)">
+          <div class="envelope-header">
+            <span><i class="fas fa-envelope"></i> رسالة رقم (7): خاتمة العهد</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="envelope-body">معاذ بحبك يا جنى لأخر العمر ولآخر الأبد ❤️ ولن تفتكني أي قوة في هذا الكون عنها.</div>
+        </div>
       </div>
     </div>
 
-    <!-- الاختبار التفاعلي -->
+    <!-- الاختبار التفاعلي (4 أسئلة ذات مغزى) -->
     <div class="section-container">
-      <div class="section-title"><i class="fas fa-heart-pulse"></i> اختبار ذكرياتنا</div>
+      <div class="section-title"><i class="fas fa-heart-pulse"></i> اختبار ذكرياتنا الخاص</div>
       <div class="quiz-card">
         <div id="quiz-box">
           <div class="quiz-q" id="quizQuestion">سؤال الاختبار سيظهر هنا</div>
@@ -654,7 +728,7 @@
       </div>
     </div>
 
-    <!-- فيديو TikTok الخاص (الرابط الجديد المحدث بالكامل) -->
+    <!-- فيديو TikTok الخاص -->
     <div class="section-container">
       <div class="section-title"><i class="fab fa-tiktok"></i> فيديو ذكرياتنا</div>
       <div class="video-card">
@@ -680,7 +754,7 @@
   </a>
 
   <script>
-    // === صور الخلفيات الرومانسية الحقيقية ===
+    // === خلفيات الصور ===
     const bgImages = [
       'https://images.unsplash.com/photo-1518199266791-5375a83190b7?q=80&w=1200&auto=format&fit=crop',
       'https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?q=80&w=1200&auto=format&fit=crop',
@@ -827,7 +901,6 @@
       const main = document.getElementById('main-content');
       main.style.opacity = '1';
       
-      // تشغيل الموسيقى تلقائياً فور الدخول
       const audio = document.getElementById('bgAudio');
       audio.play().then(() => {
         isPlaying = true;
@@ -835,7 +908,7 @@
       }).catch(e => console.log('Autoplay prevented:', e));
     }
 
-    // === تشغيل الموسيقى ===
+    // === مشغل الموسيقى ===
     let isPlaying = false;
     const audio = document.getElementById('bgAudio');
     const playBtn = document.getElementById('playBtn');
@@ -855,22 +928,14 @@
       playBtn.innerHTML = isPlaying ? '<i class="fas fa-pause"></i>' : '<i class="fas fa-play"></i>';
     }
 
-    // === إدارة الصوت تلقائياً عند التمرير إلى فيديو TikTok ===
-    window.addEventListener('scroll', () => {
-      const videoSec = document.querySelector('.video-card');
-      if (videoSec) {
-        const rect = videoSec.getBoundingClientRect();
-        const isVisible = rect.top >= 0 && rect.bottom <= window.innerHeight;
-        if (isVisible && isPlaying) {
-          audio.pause();
-          isPlaying = false;
-          updatePlayBtn();
-        }
-      }
-    });
+    // === نظام فتح وإغلاق الرسائل (الأظرف) ===
+    function toggleEnvelope(element) {
+      // إغلاق الباقي إذا أردتِ فتح ظرف واحد فقط، أو تركها تفتح معاً. هنا جعلناها مستقلة لتفتح وتغلق بكل حرية
+      element.classList.toggle('open');
+    }
 
-    // === العداد الزمني (13/8/2026 الساعة 12:04 AM) ===
-    const startDate = new Date(2026, 7, 13, 0, 4, 0); // Month 7 is August
+    // === العداد الزمني ===
+    const startDate = new Date(2026, 7, 13, 0, 4, 0);
 
     function updateCounter() {
       const now = new Date();
@@ -894,17 +959,27 @@
     setInterval(updateCounter, 1000);
     updateCounter();
 
-    // === الاختبار التفاعلي ===
+    // === الاختبار التفاعلي (4 أسئلة عميقة وذات مغزى) ===
     const quizData = [
       {
-        q: "ما هو تاريخ أول شات جمعنا مع بعض بوابتنا للحكاية؟",
-        options: ["13/8 الساعة 12:04 صباحاً", "15/8 الساعة 1:00 مساءً", "1/8 الساعة 10:00 مساءً"],
+        q: "1. في أي تاريخ وتحديداً الساعة كم بدأت أعظم صدفة وأجمل شات في عمري؟",
+        options: ["13/8/2026 الساعة 12:04 صباحاً", "15/8/2026 الساعة 1:00 ظهراً", "10/8/2026 الساعة 11:30 مساؤءً"],
         correct: 0
       },
       {
-        q: "عرفنا بعض لأول مرة إزاي؟",
-        options: ["في المدرسة", "عن طريق صدفة في جروب", "في الكافيه"],
+        q: "2. من أي مكان أو طريقة بدأت قصتنا وحكايتنا معاً؟",
+        options: ["في الشارع بالصدفة", "من جروب صدفة", "في الجامعة"],
         correct: 1
+      },
+      {
+        q: "3. ما هو المعنى الحقيقي لوجودك في حياتي بالنسبة لمعاذ؟",
+        options: ["مجرد معرفة عادية", "الصدفة التي غيرت مجرى حياتي بالكامل وأصبحت نبض قلبي", "شخص أكلمه وقت الفراغ"],
+        correct: 1
+      },
+      {
+        q: "4. ما هو الوعد الأبدي الذي أقدمه لكِ يا جنى طوال العمر؟",
+        options: ["أن أكون لكِ السند والظهر والأمان لأخر العمر", "أن نكون أصدقاء لفترة وخلاص", "لا وعد بيننا"],
+        correct: 0
       }
     ];
 
@@ -929,7 +1004,7 @@
         document.getElementById('quiz-box').style.display = 'none';
         const res = document.getElementById('quizResult');
         res.style.display = 'block';
-        res.innerHTML = `نتيجة الاختبار: ${score} من ${quizData.length} ❤️<br>أنتِ دائماً وأبداً ملكة قلبي يا جنى!`;
+        res.innerHTML = `نتيجة اختبار قلبي: ${score} من ${quizData.length} ❤️<br>أنتِ تفهمين قلبي وتملُكينه بالكامل يا أجمل جُجا في الدنيا!`;
       }
     }
 
