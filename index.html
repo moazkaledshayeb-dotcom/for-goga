@@ -330,7 +330,7 @@
       font-weight: 900;
     }
 
-    /* === مشغل الموسيقى المضمون === */
+    /* === مشغل الموسيقى المضمون 100% (يوتيوب API مخفي) === */
     .music-player-card {
       background: rgba(15, 5, 25, 0.85);
       border: 1px solid var(--purple-neon);
@@ -373,6 +373,11 @@
       display: flex;
       justify-content: center;
       align-items: center;
+    }
+
+    /* عنصر يوتيوب مخفي تماماً لتشغيل الصوت */
+    #hidden-youtube-player {
+      display: none;
     }
 
     /* === الأقسام والبطاقات === */
@@ -666,10 +671,8 @@
 
   <canvas id="heart-formation-canvas"></canvas>
 
-  <!-- أغنية رومانسية شغالة ومضمونة 100% -->
-  <audio id="bgAudio" loop preload="auto">
-    <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf756.mp3?filename=romantic-ambient-111143.mp3" type="audio/mpeg">
-  </audio>
+  <!-- مشغل يوتيوب المخفي للصوت المضمون 100% -->
+  <div id="hidden-youtube-player"></div>
 
   <!-- المحتوى الرئيسي -->
   <div id="main-content">
@@ -873,6 +876,9 @@
     <i class="fab fa-whatsapp"></i>
   </a>
 
+  <!-- سكربت يوتيوب API -->
+  <script src="https://www.youtube.com/iframe_api"></script>
+
   <script>
     // === خلفيات الصور ===
     const bgImages = [
@@ -941,7 +947,31 @@
     }
     animateHearts();
 
-    // === التحقق من كلمة السر والأنيميشن ===
+    // === إعداد مشغل يوتيوب المخفي للصوت ===
+    let player;
+    let isPlaying = false;
+
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('hidden-youtube-player', {
+        height: '0',
+        width: '0',
+        videoId: '5qap5aO4i9A', // كود أغنية رومانسية هادئة ومضمونة على يوتيوب
+        playerVars: {
+          'autoplay': 0,
+          'loop': 1,
+          'playlist': '5qap5aO4i9A'
+        },
+        events: {
+          'onReady': onPlayerReady
+        }
+      });
+    }
+
+    function onPlayerReady(event) {
+      // المشغل جاهز
+    }
+
+    // === التحقق من كلمة السر والأنيميشن وتشغيل الموسيقى ===
     const CORRECT_PASS = "28/1/2012";
 
     function checkPassword() {
@@ -1021,24 +1051,24 @@
       const main = document.getElementById('main-content');
       main.style.opacity = '1';
       
-      const audio = document.getElementById('bgAudio');
-      audio.play().then(() => {
+      // تشغيل الأغنية فور الدخول
+      if (player && typeof player.playVideo === 'function') {
+        player.playVideo();
         isPlaying = true;
         updatePlayBtn();
-      }).catch(e => console.log('Autoplay prevented:', e));
+      }
     }
 
-    // === مشغل الموسيقى ===
-    let isPlaying = false;
-    const audio = document.getElementById('bgAudio');
+    // === مشغل الموسيقى (زر التشغيل والإيقاف) ===
     const playBtn = document.getElementById('playBtn');
 
     function togglePlay() {
+      if (!player) return;
       if (isPlaying) {
-        audio.pause();
+        player.pauseVideo();
         isPlaying = false;
       } else {
-        audio.play();
+        player.playVideo();
         isPlaying = true;
       }
       updatePlayBtn();
