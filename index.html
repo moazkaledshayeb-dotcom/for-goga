@@ -15,7 +15,7 @@
     :root {
       --bg-dark: #05020a;
       --card-bg: rgba(22, 10, 35, 0.85);
-      --card-border: rgba(255, 41, 116, 0.3);
+      --card-border: rgba(255, 41, 116, 0.35);
       --pink-neon: #ff2975;
       --purple-neon: #8c1bab;
       --cyan-neon: #00f0ff;
@@ -51,7 +51,7 @@
       background-size: cover;
       background-position: center;
       transition: background-image 2s ease-in-out;
-      filter: brightness(0.35) contrast(1.1);
+      filter: brightness(0.32) contrast(1.15);
     }
 
     /* تأثير تدرج نيون خفيف فوق الخلفية */
@@ -62,9 +62,9 @@
       width: 100%;
       height: 100%;
       z-index: -1;
-      background: radial-gradient(circle at 50% 30%, rgba(140, 27, 171, 0.25), transparent 70%),
-                  radial-gradient(circle at 80% 80%, rgba(255, 41, 116, 0.2), transparent 60%),
-                  linear-gradient(to bottom, rgba(5,2,10,0.6), rgba(5,2,10,0.9));
+      background: radial-gradient(circle at 50% 30%, rgba(140, 27, 171, 0.3), transparent 70%),
+                  radial-gradient(circle at 80% 80%, rgba(255, 41, 116, 0.25), transparent 60%),
+                  linear-gradient(to bottom, rgba(5,2,10,0.65), rgba(5,2,10,0.92));
       pointer-events: none;
     }
 
@@ -98,13 +98,13 @@
     }
 
     .lock-box {
-      background: rgba(18, 7, 30, 0.85);
+      background: rgba(18, 7, 30, 0.88);
       border: 2px solid var(--pink-neon);
       border-radius: 24px;
       padding: 35px 25px;
       width: 100%;
       max-width: 380px;
-      box-shadow: 0 0 35px rgba(255, 41, 116, 0.4), inset 0 0 15px rgba(255, 41, 116, 0.2);
+      box-shadow: 0 0 35px rgba(255, 41, 116, 0.45), inset 0 0 15px rgba(255, 41, 116, 0.2);
       backdrop-filter: blur(15px);
       z-index: 2;
     }
@@ -258,6 +258,48 @@
       margin-top: 3px;
     }
 
+    /* === عداد نبضات القلب التفاعلي === */
+    .heartbeat-card {
+      background: rgba(30, 10, 45, 0.85);
+      border: 1px solid var(--pink-neon);
+      border-radius: 20px;
+      margin: 20px auto;
+      padding: 18px 15px;
+      max-width: 500px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 0 25px rgba(255, 41, 116, 0.3);
+      backdrop-filter: blur(10px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .heartbeat-icon {
+      font-size: 2.2rem;
+      color: var(--pink-neon);
+      animation: pulseHeart 1.2s infinite ease-in-out;
+      text-shadow: 0 0 15px var(--pink-neon);
+    }
+
+    @keyframes pulseHeart {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.28); }
+    }
+
+    .heartbeat-num {
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: var(--gold);
+      text-shadow: 0 0 12px rgba(255,215,0,0.6);
+    }
+
+    .heartbeat-text {
+      font-size: 0.9rem;
+      color: var(--text-sub);
+    }
+
     /* === العداد العائم السفلي === */
     .floating-counter {
       position: fixed;
@@ -288,7 +330,7 @@
       font-weight: 900;
     }
 
-    /* === مشغل الموسيقى === */
+    /* === مشغل الموسيقى المضمون === */
     .music-player-card {
       background: rgba(15, 5, 25, 0.85);
       border: 1px solid var(--purple-neon);
@@ -402,7 +444,50 @@
       line-height: 1.6;
     }
 
-    /* === الرسائل المغلقة (الأظرف التفاعلية) === */
+    /* === قسم اعترافات معاذ === */
+    .confession-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-bottom: 25px;
+    }
+
+    .confess-box {
+      background: rgba(25, 8, 40, 0.8);
+      border: 1px solid rgba(255, 41, 116, 0.3);
+      border-radius: 16px;
+      padding: 15px;
+      text-align: center;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(8px);
+      cursor: pointer;
+    }
+
+    .confess-box:hover, .confess-box:active {
+      border-color: var(--pink-neon);
+      box-shadow: 0 0 15px rgba(255, 41, 116, 0.5);
+      transform: scale(1.02);
+    }
+
+    .confess-icon {
+      font-size: 1.5rem;
+      color: var(--pink-neon);
+      margin-bottom: 8px;
+    }
+
+    .confess-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--gold);
+      margin-bottom: 4px;
+    }
+
+    .confess-sub {
+      font-size: 0.8rem;
+      color: var(--text-sub);
+    }
+
+    /* === الأظرف التفاعلية للرسائل === */
     .messages-grid {
       display: grid;
       grid-template-columns: 1fr;
@@ -451,7 +536,7 @@
     }
 
     .envelope-card.open .envelope-body {
-      max-height: 150px;
+      max-height: 180px;
       margin-top: 12px;
       border-top-color: rgba(255,255,255,0.15);
       padding-top: 10px;
@@ -572,24 +657,25 @@
   <div id="lock-screen">
     <div class="lock-box">
       <div class="lock-title">معاذ شعيب ❤️ جنى</div>
-      <div class="lock-sub">أهلاً بكِ يا أميرتي.. أدخلي كلمة السر لرؤية عالمنا</div>
+      <div class="lock-sub">أهلاً بكِ يا ملكة قلبي.. أدخلي كلمة السر لرؤية عالمنا</div>
       <input type="password" id="passInput" class="pass-input" placeholder="كلمة السر">
-      <button class="lock-btn" onclick="checkPassword()">دخول الصفحة ❤️</button>
-      <div class="error-msg" id="errorMsg">كلمة السر غير صحيحة، حاولي مرة أخرى!</div>
+      <button class="lock-btn" onclick="checkPassword()">دخول عالمنا ❤️</button>
+      <div class="error-msg" id="errorMsg">كلمة السر غير صحيحة، حاولي مرة أخرى يا أميرتي!</div>
     </div>
   </div>
 
   <canvas id="heart-formation-canvas"></canvas>
 
+  <!-- أغنية رومانسية شغالة ومضمونة 100% -->
   <audio id="bgAudio" loop preload="auto">
-    <source src="https://drive.google.com/uc?export=download&id=1VwvBlzXb-7RG2jS2UQIYOSZK-pDQg0Nu" type="audio/mpeg">
+    <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf756.mp3?filename=romantic-ambient-111143.mp3" type="audio/mpeg">
   </audio>
 
   <!-- المحتوى الرئيسي -->
   <div id="main-content">
     <header>
       <h1 class="site-title">معاذ شعيب ❤️ جنى</h1>
-      <p class="site-sub">قصة حب أبدية كُتبت بالصدفة واستمرت للأبد</p>
+      <p class="site-sub">قصة عشق كُتبت بأمر القدر وستدوم إلى آخر العمر</p>
     </header>
 
     <!-- العداد الثابت الكبير -->
@@ -617,106 +703,140 @@
       </div>
     </div>
 
+    <!-- عداد نبضات القلب لـ معاذ -->
+    <div class="heartbeat-card">
+      <div class="heartbeat-icon"><i class="fas fa-heartbeat"></i></div>
+      <div class="heartbeat-num" id="beatsNum">0</div>
+      <div class="heartbeat-text">نبضة نبضها قلب معاذ بحبك يا جنى منذ أول لحظة جمعتنا ❤️</div>
+    </div>
+
     <!-- مشغل الموسيقى -->
     <div class="music-player-card">
-      <div class="song-title"><i class="fas fa-music"></i> أغنيتنا الخاصة ❤️</div>
+      <div class="song-title"><i class="fas fa-music"></i> نغمة عشقتنا الخاصة ❤️</div>
       <div class="player-controls">
         <button class="play-btn" id="playBtn" onclick="togglePlay()"><i class="fas fa-pause"></i></button>
       </div>
     </div>
 
+    <!-- كروت اعترافات معاذ -->
+    <div class="section-container">
+      <div class="section-title"><i class="fas fa-fire-alt"></i> لماذا بحبك يا جنى؟</div>
+      <div class="confession-grid">
+        <div class="confess-box">
+          <div class="confess-icon"><i class="fas fa-crown"></i></div>
+          <div class="confess-title">أنكِ استثنائية</div>
+          <div class="confess-sub">لا توجد أنثى مثلُكِ في عيني</div>
+        </div>
+        <div class="confess-box">
+          <div class="confess-icon"><i class="fas fa-gem"></i></div>
+          <div class="confess-title">أثمن أشيائي</div>
+          <div class="confess-sub">نعمة أدعو ربي أن تحفظ دائماً</div>
+        </div>
+        <div class="confess-box">
+          <div class="confess-icon"><i class="fas fa-shield-alt"></i></div>
+          <div class="confess-title">سندي وملاذي</div>
+          <div class="confess-sub">معكِ أجد الهدوء والسلام الأبدي</div>
+        </div>
+        <div class="confess-box">
+          <div class="confess-icon"><i class="fas fa-infinity"></i></div>
+          <div class="confess-title">لآخر عمري</div>
+          <div class="confess-sub">حبي لكِ يزداد مع كل ثانية</div>
+        </div>
+      </div>
+    </div>
+
     <!-- الذكريات -->
     <div class="section-container">
-      <div class="section-title"><i class="fas fa-star"></i> حكايتنا وذكرياتنا</div>
+      <div class="section-title"><i class="fas fa-star"></i> حكايتنا وذكرياتنا الخالدة</div>
       <div class="timeline">
         <div class="memory-card">
           <div class="memory-title">الذكرى الأولى: بداية الحكاية</div>
-          <div class="memory-desc">عرفنا بعض من جروب صدفة وكانت أجمل صدفة في حياتي كلها ❤️</div>
+          <div class="memory-desc">عرفنا بعض من جروب صدفة وكانت أجمل صدفة في حياتي كلها، فتحت لي أبواب الدنيا ❤️</div>
         </div>
 
         <div class="memory-card">
           <div class="memory-title">الذكرى الثانية: أول شات بيننا</div>
           <div class="memory-time">التاريخ: 13/8 - الساعة: 12:04 صباحاً بالضبط</div>
-          <div class="memory-desc">اللحظة اللي بدأت فيها سطور أجمل رواية في عمري كله.</div>
+          <div class="memory-desc">اللحظة اللي بدأت فيها سطور أجمل رواية في عمري كله. اللحظة اللي قلبي بدأ ينبض فيها حقيقي.</div>
         </div>
 
         <div class="memory-card">
           <div class="memory-title">الذكرى الثالثة: أول ليلة سهر مع بعض</div>
-          <div class="memory-desc">أول مرة نسهر مع بعض جوه الجروب وبدأنا نتعرف ونقرب من بعض أكتر وأكتر.</div>
+          <div class="memory-desc">أول مرة نسهر مع بعض جوه الجروب وبدأنا نتعرف ونقرب من بعض أكتر وأكتر وشفت فيكي الملاطافة والجمال كله.</div>
         </div>
 
         <div class="memory-card">
           <div class="memory-title">الذكرى الرابعة: ضحكة مش بتتنسي</div>
-          <div class="memory-desc">ضحكنا وهزارنا مع بعض لما كنا بنهزر ونضحك على أي حد بصفة عامة، لحظات محفورة في قلبي.</div>
+          <div class="memory-desc">ضحكنا وهزارنا مع بعض لما كنا بنهزر ونضحك على أي حد بصفة عامة، لحظات محفورة في قلبي ومش ممكن تمحيها الأيام.</div>
         </div>
       </div>
     </div>
 
     <!-- الرسائل المغلقة (الأظرف التفاعلية) -->
     <div class="section-container">
-      <div class="section-title"><i class="fas fa-envelope-open-text"></i> رسائل مغلقة من قلبي لقلبك</div>
-      <p style="color: var(--text-sub); font-size: 0.9rem; margin-bottom: 15px;">اضغطي على أي ظرف لفتحه وقراءة ما يحمله قلبي لكِ ❤️</p>
+      <div class="section-title"><i class="fas fa-envelope-open-text"></i> رسائل مغلقة بقلبي ومقفولة بحبي</div>
+      <p style="color: var(--text-sub); font-size: 0.9rem; margin-bottom: 15px;">اضغطي على أي ظرف لفتحه وقراءة ما يحمله قلبي العاشق لكِ ❤️</p>
       
       <div class="messages-grid">
         <div class="envelope-card" onclick="toggleEnvelope(this)">
           <div class="envelope-header">
-            <span><i class="fas fa-envelope"></i> رسالة رقم (1): السحر الحلال</span>
+            <span><i class="fas fa-envelope"></i> رسالة رقم (1): سر سعادتي</span>
             <i class="fas fa-chevron-down"></i>
           </div>
-          <div class="envelope-body">وجودك في حياتي بيخلي كل حاجة ألمسها تبدو أجمل وألطف، وكأنك النور الذي أضاء عتمة أيامي ❤️</div>
+          <div class="envelope-body">وجودك في حياتي بيخلي كل حاجة ألمسها تبدو أجمل وألطف، أنتِ النور اللي بيضوي أضيق أوقاتي والسبب الأول في ابتسامتي يومياً ❤️</div>
         </div>
 
         <div class="envelope-card" onclick="toggleEnvelope(this)">
           <div class="envelope-header">
-            <span><i class="fas fa-envelope"></i> رسالة رقم (2): الصدفة الجميلة</span>
+            <span><i class="fas fa-envelope"></i> رسالة رقم (2): أعظم قدر</span>
             <i class="fas fa-chevron-down"></i>
           </div>
-          <div class="envelope-body">أنتِ مش بس حبيبتي، أنتِ الصدفة العظيمة التي غيرت مجرى حياتي بالكامل وجعلت للأيام طعم آخر.</div>
+          <div class="envelope-body">أنتِ مش بس حبيبتي، أنتِ الصدفة العظيمة التي غيرت مجرى حياتي بالكامل، وجودك بجانبي يجعلني أشعر وكأنني أملك الكون كله بين يدي.</div>
         </div>
 
         <div class="envelope-card" onclick="toggleEnvelope(this)">
           <div class="envelope-header">
-            <span><i class="fas fa-envelope"></i> رسالة رقم (3): الموسيقى المفضلة</span>
+            <span><i class="fas fa-envelope"></i> رسالة رقم (3): سحر صوتك وضحكتك</span>
             <i class="fas fa-chevron-down"></i>
           </div>
-          <div class="envelope-body">ضحكتك هي الموسيقى المفضلة بالنسبة لي في العالم دا كله، بها تكتمل فرحتي وبه تشفى كل جروحي.</div>
+          <div class="envelope-body">ضحكتك هي الموسيقى المفضلة بالنسبة لي في هذا العالم كله، بها تكتمل فرحتي، وبهدوئك الشديد ترتاح روحي من كل تعب.</div>
         </div>
 
         <div class="envelope-card" onclick="toggleEnvelope(this)">
           <div class="envelope-header">
-            <span><i class="fas fa-envelope"></i> رسالة رقم (4): دقات القلب</span>
+            <span><i class="fas fa-envelope"></i> رسالة رقم (4): ميلاد قلبي</span>
             <i class="fas fa-chevron-down"></i>
           </div>
-          <div class="envelope-body">13/8 الساعة 12:04 كانت اللحظة الحقيقية التي بدأ قلبي ينبض فيها بجد ويشعر بمعنى الحياة.</div>
+          <div class="envelope-body">13/8 الساعة 12:04 كانت اللحظة الحقيقية التي بدأ قلبي ينبض فيها بجد ويشعر بمعنى الحب والحياة، تاريخ لا يمكن أن يُمحى من ذاكرتي.</div>
         </div>
 
         <div class="envelope-card" onclick="toggleEnvelope(this)">
           <div class="envelope-header">
-            <span><i class="fas fa-envelope"></i> رسالة رقم (5): تفاصيلك</span>
+            <span><i class="fas fa-envelope"></i> رسالة رقم (5): غرام التفاصيل</span>
             <i class="fas fa-chevron-down"></i>
           </div>
-          <div class="envelope-body">بحب كل تفصيلة فيكي، بحب طريقة كلامك، هدوءك، وضحكتك العفوية التي تسرقني من كل العالم.</div>
+          <div class="envelope-body">بحب كل تفصيلة فيكي؛ طريقة كلامك، خجلك، هدوءك، وضحكتك العفوية. كل جزء فيكي يعنيني ويعبر عن ملهمتي الوحيدة.</div>
         </div>
 
         <div class="envelope-card" onclick="toggleEnvelope(this)">
           <div class="envelope-header">
-            <span><i class="fas fa-envelope"></i> رسالة رقم (6): الوعد الأبدي</span>
+            <span><i class="fas fa-envelope"></i> رسالة رقم (6): العهد الأبدي</span>
             <i class="fas fa-chevron-down"></i>
           </div>
-          <div class="envelope-body">أعدك أن أكون لكِ السند والظهر والأمان طوال العمر، وأن تظل سعادتك هي غايتي الأولى والأبدية.</div>
+          <div class="envelope-body">أعدك أمام الله أن أكون لكِ السند والظهر والأمان والملجأ طوال العمر، وأن تبقى سعادتك وراحتك هي غايتي الأسمى والأولى دائماً.</div>
         </div>
 
         <div class="envelope-card" onclick="toggleEnvelope(this)">
           <div class="envelope-header">
-            <span><i class="fas fa-envelope"></i> رسالة رقم (7): خاتمة العهد</span>
+            <span><i class="fas fa-envelope"></i> رسالة رقم (7): اعتراف لا ينتهي</span>
             <i class="fas fa-chevron-down"></i>
           </div>
-          <div class="envelope-body">معاذ بحبك يا جنى لأخر العمر ولآخر الأبد ❤️ ولن تفتكني أي قوة في هذا الكون عنها.</div>
+          <div class="envelope-body">معاذ بحبك يا جنى لأخر العمر ولآخر الأبد ❤️ سأبقى أحبك اليوم وغداً وحتى تنتهي أنفاسي.</div>
         </div>
       </div>
     </div>
 
-    <!-- الاختبار التفاعلي (4 أسئلة ذات مغزى) -->
+    <!-- الاختبار التفاعلي (4 أسئلة) -->
     <div class="section-container">
       <div class="section-title"><i class="fas fa-heart-pulse"></i> اختبار ذكرياتنا الخاص</div>
       <div class="quiz-card">
@@ -930,11 +1050,10 @@
 
     // === نظام فتح وإغلاق الرسائل (الأظرف) ===
     function toggleEnvelope(element) {
-      // إغلاق الباقي إذا أردتِ فتح ظرف واحد فقط، أو تركها تفتح معاً. هنا جعلناها مستقلة لتفتح وتغلق بكل حرية
       element.classList.toggle('open');
     }
 
-    // === العداد الزمني ===
+    // === العداد الزمني وعداد نبضات القلب ===
     const startDate = new Date(2026, 7, 13, 0, 4, 0);
 
     function updateCounter() {
@@ -955,11 +1074,15 @@
       document.getElementById('fl-hours').innerText = hours;
       document.getElementById('fl-mins').innerText = minutes;
       document.getElementById('fl-secs').innerText = seconds;
+
+      const totalMinutes = diff / (1000 * 60);
+      const beats = Math.floor(totalMinutes * 78);
+      document.getElementById('beatsNum').innerText = beats.toLocaleString('ar-EG');
     }
     setInterval(updateCounter, 1000);
     updateCounter();
 
-    // === الاختبار التفاعلي (4 أسئلة عميقة وذات مغزى) ===
+    // === الاختبار التفاعلي (4 أسئلة) ===
     const quizData = [
       {
         q: "1. في أي تاريخ وتحديداً الساعة كم بدأت أعظم صدفة وأجمل شات في عمري؟",
